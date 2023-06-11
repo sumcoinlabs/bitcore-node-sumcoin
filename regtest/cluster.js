@@ -6,7 +6,7 @@ var spawn = require('child_process').spawn;
 
 var BitcoinRPC = require('bitcoind-rpc');
 var rimraf = require('rimraf');
-var bitcore = require('bitcore-lib-gemlink');
+var bitcore = require('bitcore-lib-sumcoin');
 var chai = require('chai');
 var should = chai.should();
 
@@ -19,11 +19,11 @@ var BitcoinService = index.services.Bitcoin;
 describe('Bitcoin Cluster', function() {
   var node;
   var daemons = [];
-  var execPath = path.resolve(__dirname, '../bin/gemlinkd');
+  var execPath = path.resolve(__dirname, '../bin/sumcoind');
   var nodesConf = [
     {
       datadir: path.resolve(__dirname, './data/node1'),
-      conf: path.resolve(__dirname, './data/node1/gemlink.conf'),
+      conf: path.resolve(__dirname, './data/node1/sumcoin.conf'),
       rpcuser: 'bitcoin',
       rpcpassword: 'local321',
       rpcport: 30521,
@@ -32,7 +32,7 @@ describe('Bitcoin Cluster', function() {
     },
     {
       datadir: path.resolve(__dirname, './data/node2'),
-      conf: path.resolve(__dirname, './data/node2/gemlink.conf'),
+      conf: path.resolve(__dirname, './data/node2/sumcoin.conf'),
       rpcuser: 'bitcoin',
       rpcpassword: 'local321',
       rpcport: 30522,
@@ -41,7 +41,7 @@ describe('Bitcoin Cluster', function() {
     },
     {
       datadir: path.resolve(__dirname, './data/node3'),
-      conf: path.resolve(__dirname, './data/node3/gemlink.conf'),
+      conf: path.resolve(__dirname, './data/node3/sumcoin.conf'),
       rpcuser: 'bitcoin',
       rpcpassword: 'local321',
       rpcport: 30523,

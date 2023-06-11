@@ -6,7 +6,7 @@ var sinon = require('sinon');
 var proxyquire = require('proxyquire');
 
 describe('#defaultConfig', function() {
-  var expectedExecPath = path.resolve(__dirname, '../../bin/gemlinkd');
+  var expectedExecPath = path.resolve(__dirname, '../../bin/sumcoind');
 
   it('will return expected configuration', function() {
     var config = JSON.stringify({

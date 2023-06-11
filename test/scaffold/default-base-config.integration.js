@@ -15,7 +15,7 @@ describe('#defaultBaseConfig', function() {
     info.config.services.should.deep.equal(['bitcoind', 'web']);
     var bitcoind = info.config.servicesConfig.bitcoind;
     bitcoind.spawn.datadir.should.equal(home + '/.snowgem');
-    bitcoind.spawn.exec.should.equal(path.resolve(__dirname, '../../bin/gemlinkd'));
+    bitcoind.spawn.exec.should.equal(path.resolve(__dirname, '../../bin/sumcoind'));
   });
   it('be able to specify a network', function() {
     var info = defaultBaseConfig({network: 'testnet'});

@@ -94,7 +94,7 @@ describe('#add', function() {
       var callCount = 0;
       var oldPackage = {
         dependencies: {
-          'bitcore-lib-gemlink': '^v0.13.7',
+          'bitcore-lib-sumcoin': '^v0.13.7',
           'bitcore-node': '^v0.2.0'
         }
       };

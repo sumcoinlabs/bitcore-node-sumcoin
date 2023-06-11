@@ -24,4 +24,4 @@ module.exports.cli.daemon = require('./lib/cli/daemon');
 module.exports.cli.bitcore = require('./lib/cli/bitcore');
 module.exports.cli.bitcored = require('./lib/cli/bitcored');
 
-module.exports.lib = require('bitcore-lib-gemlink');
+module.exports.lib = require('bitcore-lib-sumcoin');
