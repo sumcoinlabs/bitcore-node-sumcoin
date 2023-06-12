@@ -6,7 +6,7 @@ var path = require('path');
 var index = require('..');
 var log = index.log;
 
-var p2p = require('bitcore-p2p');
+var p2p = require('sumcore-p2p');
 var Peer = p2p.Peer;
 var Messages = p2p.Messages;
 var chai = require('chai');
@@ -21,7 +21,7 @@ var bitcoind;
 var should = chai.should();
 var assert = chai.assert;
 var sinon = require('sinon');
-var BitcoinRPC = require('bitcoind-rpc');
+var BitcoinRPC = require('litecoind-rpc');
 var transactionData = [];
 var blockHashes = [];
 var txs = [];
@@ -52,7 +52,7 @@ describe('P2P Functionality', function() {
       bitcoind = require('../').services.Bitcoin({
         spawn: {
           datadir: datadir,
-          exec: path.resolve(__dirname, '../bin/sumcoind')
+          exec: path.resolve(__dirname, '../bin/litecoind')
         },
         node: {
           network: bitcore.Networks.testnet
@@ -63,13 +63,13 @@ describe('P2P Functionality', function() {
         log.error('error="%s"', err.message);
       });
 
-      log.info('Waiting for Zcash to initialize...');
+      log.info('Waiting for Bitcoin Core to initialize...');
 
       bitcoind.start(function(err) {
         if (err) {
           throw err;
         }
-        log.info('Zcashd started');
+        log.info('Bitcoind started');
 
         client = new BitcoinRPC({
           protocol: 'http',
@@ -82,7 +82,7 @@ describe('P2P Functionality', function() {
 
         peer = new Peer({
           host: '127.0.0.1',
-          port: '18444',
+          // port: regtestNetwork.port, // regtestNetwork will provide the port: 19444
           network: regtestNetwork
         });
 
@@ -133,7 +133,7 @@ describe('P2P Functionality', function() {
                       var tx = bitcore.Transaction();
                       tx.from(utxo);
                       tx.change(privateKey.toAddress());
-                      tx.to(destKey.toAddress(), utxo.amount * 1e8 - 1000);
+                      tx.to(destKey.toAddress(), utxo.amount * 1e8 - 100000);
                       tx.sign(bitcore.PrivateKey.fromWIF(utxo.privateKeyWIF));
                       txs.push(tx);
                       finished();

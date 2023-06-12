@@ -5,11 +5,11 @@ var bitcoin = require('bitcoin');
 var async = require('async');
 var maxTime = 20;
 
-console.log('Zcash Service native interface vs. Zcash JSON RPC interface');
+console.log('Bitcoin Service native interface vs. Bitcoin JSON RPC interface');
 console.log('----------------------------------------------------------------------');
 
 // To run the benchmarks a fully synced Bitcore Core directory is needed. The RPC comands
-// can be modified to match the settings in bitcoin.conf.
+// can be modified to match the settings in sumcoin.conf.
 
 var fixtureData = {
   blockHashes: [
@@ -28,7 +28,7 @@ var fixtureData = {
 
 var bitcoind = require('../').services.Bitcoin({
   node: {
-    datadir: process.env.HOME + '/.snowgem',
+    datadir: process.env.HOME + '/.sumcoin',
     network: {
       name: 'testnet'
     }
@@ -43,16 +43,16 @@ bitcoind.start(function(err) {
   if (err) {
     throw err;
   }
-  console.log('Zcash started');
+  console.log('Bitcoin Core started');
 });
 
 bitcoind.on('ready', function() {
 
-  console.log('Zcash ready');
+  console.log('Bitcoin Core ready');
 
   var client = new bitcoin.Client({
     host: 'localhost',
-    port: 18332,
+    port: 19332,
     user: 'bitcoin',
     pass: 'local321'
   });

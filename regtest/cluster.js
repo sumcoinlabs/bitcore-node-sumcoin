@@ -4,7 +4,7 @@ var path = require('path');
 var async = require('async');
 var spawn = require('child_process').spawn;
 
-var BitcoinRPC = require('bitcoind-rpc');
+var BitcoinRPC = require('litecoind-rpc');
 var rimraf = require('rimraf');
 var bitcore = require('bitcore-lib-sumcoin');
 var chai = require('chai');
@@ -19,7 +19,7 @@ var BitcoinService = index.services.Bitcoin;
 describe('Bitcoin Cluster', function() {
   var node;
   var daemons = [];
-  var execPath = path.resolve(__dirname, '../bin/sumcoind');
+  var execPath = path.resolve(__dirname, '../bin/litecoind');
   var nodesConf = [
     {
       datadir: path.resolve(__dirname, './data/node1'),

@@ -7,7 +7,7 @@ Bitcore Node has a service module system that can start up additional services t
 - HTTP routes
 - Event types to publish and subscribe
 
-The `bitcore-node.json` file describes which services will load for a node:
+The `sumcore-node.json` file describes which services will load for a node:
 
 ```json
 {
@@ -20,37 +20,37 @@ Services correspond with a Node.js module as described in 'package.json', for ex
 ```json
 {
   "dependencies": {
-    "bitcore-lib": "^0.13.7",
-    "bitcore-node": "^0.2.0",
+    "bitcore-lib-sumcoin": "^0.1.0",
+    "sumcore-node": "^0.2.0",
     "insight-api": "^3.0.0"
   }
 }
 ```
 
-_Note:_ If you already have a bitcore-node database, and you want to query data from previous blocks in the blockchain, you will need to reindex. Reindexing right now means deleting your bitcore-node database and resyncing.
+_Note:_ If you already have a sumcore-node database, and you want to query data from previous blocks in the blockchain, you will need to reindex. Reindexing right now means deleting your sumcore-node database and resyncing.
 
 ## Using Services Programmatically
 
 If, instead, you would like to run a custom node, you can include services by including them in your configuration object when initializing a new node.
 
 ```js
-//Require bitcore
-var bitcore = require('bitcore-node');
+//Require sumcore
+var sumcore = require('sumcore-node');
 
 //Services
-var Bitcoin = bitcore.services.Bitcoin;
-var Web = bitcore.services.Web;
+var Bitcoin = sumcore.services.Bitcoin;
+var Web = sumcore.services.Web;
 
-var myNode = new bitcore.Node({
+var myNode = new sumcore.Node({
   network: 'regtest'
   services: [
     {
-      name: 'bitcoind',
-      module: Bitcoin,
+      name: 'litecoind',
+      module: Litecoin,
       config: {
         spawn: {
-          datadir: '/home/<username>/.bitcoin',
-          exec: '/home/<username>/bitcore-node/bin/sumcoind'
+          datadir: '/home/<username>/.sumcoin',
+          exec: '/home/<username>/sumcore-node/bin/litecoind'
         }
       }
     },
@@ -89,6 +89,6 @@ A new service can be created by inheriting from `Node.Service` and implementing 
 - `Service.prototype.getPublishEvents()` - Describes which events can be subscribed to for this service, useful to subscribe to events over the included web socket API.
 - `Service.prototype.setupRoutes()` - A service can extend HTTP routes on an express application by implementing this method.
 
-The `package.json` for the service module can either export the `Node.Service` directly, or specify a specific module to load by including `"bitcoreNode": "lib/bitcore-node.js"`.
+The `package.json` for the service module can either export the `Node.Service` directly, or specify a specific module to load by including `"litecoreNode": "lib/sumcore-node.js"`.
 
 Please take a look at some of the existing services for implementation specifics.

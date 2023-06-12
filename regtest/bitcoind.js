@@ -17,7 +17,7 @@ var bitcoind;
 var should = chai.should();
 var assert = chai.assert;
 var sinon = require('sinon');
-var BitcoinRPC = require('bitcoind-rpc');
+var BitcoinRPC = require('litecoind-rpc');
 var transactionData = [];
 var blockHashes = [];
 var utxos;
@@ -26,7 +26,7 @@ var coinbasePrivateKey;
 var privateKey = bitcore.PrivateKey();
 var destKey = bitcore.PrivateKey();
 
-describe('Zcashd Functionality', function() {
+describe('Bitcoind Functionality', function() {
 
   before(function(done) {
     this.timeout(60000);
@@ -60,10 +60,10 @@ describe('Zcashd Functionality', function() {
         log.error('error="%s"', err.message);
       });
 
-      log.info('Waiting for Zcash to initialize...');
+      log.info('Waiting for Bitcoin Core to initialize...');
 
       bitcoind.start(function() {
-        log.info('Zcashd started');
+        log.info('Bitcoind started');
 
         client = new BitcoinRPC({
           protocol: 'http',
@@ -331,7 +331,7 @@ describe('Zcashd Functionality', function() {
       var tx = bitcore.Transaction();
       tx.from(utxos[0]);
       tx.change(privateKey.toAddress());
-      tx.to(destKey.toAddress(), utxos[0].amount * 1e8 - 1000);
+      tx.to(destKey.toAddress(), utxos[0].amount * 1e8 - 10000);
       tx.sign(bitcore.PrivateKey.fromWIF(utxos[0].privateKeyWIF));
 
       // test sending the transaction
@@ -349,7 +349,7 @@ describe('Zcashd Functionality', function() {
       var tx = bitcore.Transaction();
       tx.from(utxos[1]);
       tx.change(privateKey.toAddress());
-      tx.to(destKey.toAddress(), utxos[1].amount * 1e8 - 1000);
+      tx.to(destKey.toAddress(), utxos[1].amount * 1e8 - 10000);
       bitcoind.sendTransaction(tx.uncheckedSerialize(), function(err, hash) {
         should.exist(err);
         (err instanceof Error).should.equal(true);
@@ -377,7 +377,7 @@ describe('Zcashd Functionality', function() {
       var tx = bitcore.Transaction();
       tx.from(utxos[2]);
       tx.change(privateKey.toAddress());
-      tx.to(destKey.toAddress(), utxos[2].amount * 1e8 - 1000);
+      tx.to(destKey.toAddress(), utxos[2].amount * 1e8 - 10000);
       tx.sign(bitcore.PrivateKey.fromWIF(utxos[2].privateKeyWIF));
 
       var serialized = tx.serialize();
@@ -442,7 +442,7 @@ describe('Zcashd Functionality', function() {
         tx.outputSatoshis.should.equal(50 * 1e8);
         tx.inputSatoshis.should.equal(0);
         tx.inputs.length.should.equal(1);
-        tx.outputs.length.should.equal(1);
+        tx.outputs.length.should.equal(2); // segwit
         should.equal(tx.inputs[0].prevTxId, null);
         should.equal(tx.inputs[0].outputIndex, null);
         tx.inputs[0].script.should.be.a('string');

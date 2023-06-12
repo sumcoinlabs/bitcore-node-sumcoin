@@ -10,35 +10,37 @@ nvm install v4
 
 ## Fork and Download Repositories
 
-To develop bitcore-node:
+To develop sumcore-node:
 
 ```bash
 cd ~
-git clone git@github.com:<yourusername>/bitcore-node.git
-git clone git@github.com:<yourusername>/bitcore-lib.git
+git clone git@github.com:<yourusername>/sumcore-node.git
+git clone git@github.com:<yourusername>/bitcore-lib-sumcoin.git
 ```
 
-To develop bitcoin or to compile from source:
+To develop sumcoin or to compile from source:
 
 ```bash
-git clone git@github.com:<yourusername>/bitcoin.git
+git clone git@github.com:<yourusername>/sumcoin.git
 git fetch origin <branchname>:<branchname>
 git checkout <branchname>
 ```
-**Note**: See bitcoin documentation for building bitcoin on your platform.
 
+**Note**: See sumcoin documentation for building sumcoin on your platform.
 
 ## Install Development Dependencies
 
 For Ubuntu:
+
 ```bash
 sudo apt-get install libzmq3-dev
 sudo apt-get install build-essential
 ```
+
 **Note**: Make sure that libzmq-dev is not installed, it should be removed when installing libzmq3-dev.
 
-
 For Mac OS X:
+
 ```bash
 brew install zeromq
 ```
@@ -46,49 +48,55 @@ brew install zeromq
 ## Install and Symlink
 
 ```bash
-cd bitcore-lib
+cd bitcore-lib-sumcoin
 npm install
-cd ../bitcore-node
+cd ../sumcore-node
 npm install
 ```
-**Note**: If you get a message about not being able to download bitcoin distribution, you'll need to compile bitcoind from source, and setup your configuration to use that version.
 
+**Note**: If you get a message about not being able to download sumcoin distribution, you'll need to compile litecoind from source, and setup your configuration to use that version.
 
-We now will setup symlinks in `bitcore-node` *(repeat this for any other modules you're planning on developing)*:
+We now will setup symlinks in `sumcore-node` _(repeat this for any other modules you're planning on developing)_:
+
 ```bash
 cd node_modules
-rm -rf bitcore-lib
-ln -s ~/bitcore-lib
+rm -rf bitcore-lib-sumcoin
+ln -s ~/bitcore-lib-sumcoin
 rm -rf bitcoind-rpc
 ln -s ~/bitcoind-rpc
 ```
 
-And if you're compiling or developing bitcoin:
+And if you're compiling or developing sumcoin:
+
 ```bash
 cd ../bin
-ln -sf ~/bitcoin/src/bitcoind
+ln -sf ~/sumcoin/src/litecoind
 ```
 
 ## Run Tests
 
 If you do not already have mocha installed:
+
 ```bash
 npm install mocha -g
 ```
 
 To run all test suites:
+
 ```bash
-cd bitcore-node
+cd sumcore-node
 npm run regtest
 npm run test
 ```
 
 To run a specific unit test in watch mode:
+
 ```bash
 mocha -w -R spec test/services/bitcoind.unit.js
 ```
 
 To run a specific regtest:
+
 ```bash
 mocha -R spec regtest/bitcoind.js
 ```
@@ -102,27 +110,28 @@ cd ~
 mkdir devnode
 cd devnode
 mkdir node_modules
-touch bitcore-node.json
+touch sumcore-node.json
 touch package.json
 ```
 
-Edit `bitcore-node.json` with something similar to:
+Edit `sumcore-node.json` with something similar to:
+
 ```json
 {
   "network": "livenet",
   "port": 3001,
   "services": [
-    "bitcoind",
+    "litecoind",
     "web",
     "insight-api",
     "insight-ui",
     "<additional_service>"
   ],
   "servicesConfig": {
-    "bitcoind": {
+    "litecoind": {
       "spawn": {
-        "datadir": "/home/<youruser>/.bitcoin",
-        "exec": "/home/<youruser>/bitcoin/src/bitcoind"
+        "datadir": "/home/<youruser>/.sumcoin",
+        "exec": "/home/<youruser>/sumcoin/src/litecoind"
       }
     }
   }
@@ -135,13 +144,14 @@ Setup symlinks for all of the services and dependencies:
 
 ```bash
 cd node_modules
-ln -s ~/bitcore-lib
-ln -s ~/bitcore-node
+ln -s ~/bitcore-lib-sumcoin
+ln -s ~/sumcore-node
 ln -s ~/insight-api
 ln -s ~/insight-ui
 ```
 
-Make sure that the `<datadir>/bitcoin.conf` has the necessary settings, for example:
+Make sure that the `<datadir>/sumcoin.conf` has the necessary settings, for example:
+
 ```
 server=1
 whitelist=127.0.0.1
@@ -149,14 +159,15 @@ txindex=1
 addressindex=1
 timestampindex=1
 spentindex=1
-zmqpubrawtx=tcp://127.0.0.1:28332
-zmqpubhashblock=tcp://127.0.0.1:28332
+zmqpubrawtx=tcp://127.0.0.1:29332
+zmqpubhashblock=tcp://127.0.0.1:29332
 rpcallowip=127.0.0.1
-rpcuser=bitcoin
+rpcuser=sumcoin
 rpcpassword=local321
 ```
 
 From within the `devnode` directory with the configuration file, start the node:
+
 ```bash
-../bitcore-node/bin/bitcore-node start
+../sumcore-node/bin/sumcore-node start
 ```
